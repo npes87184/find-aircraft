@@ -7,6 +7,7 @@ var down = 1;
 var right = 2;
 var up = 3;
 var board;
+var finish = false;
 
 function calBlockSize(size, dev_width) {
 	block_size = Math.floor(dev_width / size) - 8;
@@ -97,10 +98,18 @@ function gridEventHandle(event) {
 	];
 	var color = color_mapping[board[i][j]];
 
+
+	if (finish) {
+		startGame();
+		return;
+	}
+
 	ctx.beginPath();
 	ctx.rect(j * (block_size + 4), i * (block_size + 4), block_size, block_size);
 	ctx.fillStyle = color;
 	ctx.fill();
+
+	finish = (board[i][j] == cell_head);
 }
 
 function drawGrid(size) {
@@ -120,4 +129,12 @@ function drawGrid(size) {
 	ctx.closePath();
 
 	grid.addEventListener('click', gridEventHandle, false);
+}
+
+function startGame() {
+	finish = false;
+	calBlockSize(10, (window.innerWidth > 0) ? window.innerWidth : screen.width);
+	drawGrid(10);
+	initBoard(10);
+	createAircraft(10);
 }
