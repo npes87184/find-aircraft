@@ -99,9 +99,9 @@ function gridEventHandle(event) {
 	var i = Math.floor((event.pageY - gridTop) / (block_size + 4));
 	var j = Math.floor((event.pageX - gridLeft) / (block_size + 4));
 	var color_mapping = [
-		'#eceff1',
-		'#1565c0',
-		'#c2185b'
+		'#eceff1', // cell_empty
+		'#1565c0', // cell_body
+		'#c2185b'  // cell_head
 	];
 	var color = color_mapping[board[i][j]];
 
