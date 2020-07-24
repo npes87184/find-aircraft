@@ -8,6 +8,11 @@ var right = 2;
 var up = 3;
 var board;
 
+function calBlockSize(size, dev_width) {
+	block_size = Math.floor(dev_width / size) - 8;
+	block_size = Math.min(40, block_size);
+}
+
 function initBoard(size) {
 	board = [];
 
