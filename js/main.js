@@ -8,6 +8,7 @@ var right = 2;
 var up = 3;
 var board;
 var finish = false;
+var score = 0;
 
 function calBlockSize(size, dev_width) {
 	block_size = Math.floor(dev_width / size) - 8;
@@ -84,6 +85,12 @@ function createAircraft(size, aircraft_size) {
 	}
 }
 
+function showScore(value) {
+	var score_text = document.getElementById('score');
+
+	score_text.innerText = 'Score: ' + String(value);
+}
+
 function gridEventHandle(event) {
 	var grid = document.getElementById('grid');
 	var ctx = grid.getContext('2d');
@@ -98,11 +105,13 @@ function gridEventHandle(event) {
 	];
 	var color = color_mapping[board[i][j]];
 
-
 	if (finish) {
 		startGame();
 		return;
 	}
+
+	score += 1;
+	showScore(score);
 
 	ctx.beginPath();
 	ctx.rect(j * (block_size + 4), i * (block_size + 4), block_size, block_size);
@@ -133,6 +142,8 @@ function drawGrid(size) {
 
 function startGame() {
 	finish = false;
+	score = 0;
+	showScore(score);
 	calBlockSize(10, (window.innerWidth > 0) ? window.innerWidth : screen.width);
 	drawGrid(10);
 	initBoard(10);
