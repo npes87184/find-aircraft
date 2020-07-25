@@ -7,6 +7,7 @@ var down = 1;
 var right = 2;
 var up = 3;
 var board;
+var visited;
 var finish = false;
 var score = 0;
 
@@ -17,15 +18,19 @@ function calBlockSize(size, dev_width) {
 
 function initBoard(size) {
 	board = [];
+	visited = [];
 
 	for (var i = 0; i < size; ++i) {
 		row = [];
+		visited_row = [];
 
 		for (var j = 0; j < size; ++j) {
 			row.push(cell_empty);
+			visited_row.push(false);
 		}
 
 		board.push(row);
+		visited.push(visited_row);
 	}
 }
 
@@ -109,6 +114,11 @@ function gridEventHandle(event) {
 		startGame();
 		return;
 	}
+
+	if (visited[i][j]) {
+		return;
+	}
+	visited[i][j] = true;
 
 	score += 1;
 	showScore(score);
