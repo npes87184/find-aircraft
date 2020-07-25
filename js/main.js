@@ -36,10 +36,10 @@ function initBoard(size) {
 
 function createAircraft(size, aircraft_size) {
 	var head_direction = Math.floor(Math.random() * 4);
-	var i_start = ((head_direction == up) ? 1 : 3) - 1;
-	var i_end = ((head_direction == down) ? (size - 1) : (size - 3)) - 1;
-	var j_start = ((head_direction == left) ? 1 : 3) - 1;
-	var j_end = ((head_direction == right) ? (size - 1) : (size - 3)) - 1;
+	var i_start = (head_direction == up) ? 1 : 2;
+	var i_end = (head_direction == down) ? (size - 2) : (size - 3);
+	var j_start = (head_direction == left) ? 1 : 2;
+	var j_end = (head_direction == right) ? (size - 2) : (size - 3);
 	var i_center = Math.floor(Math.random() * (i_end - i_start)) + i_start;
 	var j_center = Math.floor(Math.random() * (j_end - j_start)) + j_start;
 
