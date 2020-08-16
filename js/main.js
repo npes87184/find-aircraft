@@ -8,8 +8,8 @@ var right = 2;
 var up = 3;
 var board;
 var visited;
-var finish = false;
 var score = 0;
+var remain = 1;
 
 function calBlockSize(size, dev_width) {
 	block_size = Math.floor(dev_width / size) - 8;
@@ -90,31 +90,84 @@ function createAircraft(size, aircraft_size) {
 	}
 }
 
-function showScore(value) {
-	var score_text = document.getElementById('score');
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+	if (w < 2 * r) r = w / 2;
+	if (h < 2 * r) r = h / 2;
+	this.moveTo(x+r, y);
+	this.arcTo(x+w, y,   x+w, y+h, r);
+	this.arcTo(x+w, y+h, x,   y+h, r);
+	this.arcTo(x,   y+h, x,   y,   r);
+	this.arcTo(x,   y,   x+w, y,   r);
+	return this;
+}
 
-	score_text.innerText = 'Score: ' + String(value);
+function showScore(value) {
+	var grid = document.getElementById('grid');
+	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
+	var text = "Score: " + value;
+
+	ctx.clearRect(0, 0, block_size * 4 + 12, titlebar_height);
+	ctx.fillStyle = "#90a4ae";
+	ctx.beginPath();
+	ctx.roundRect(0, 0, block_size * 4 + 12, titlebar_height, 10);
+	ctx.fill();
+	ctx.closePath();
+    ctx.font = "20pt Arial";
+    ctx.fillStyle = "#263238";
+    ctx.fillText(text, block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
+}
+
+function showRemain(value) {
+	var grid = document.getElementById('grid');
+	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
+	var text = "Remain: " + value;
+
+	ctx.clearRect(block_size * 4 + 16, 0, block_size * 4 + 12, titlebar_height);
+	ctx.fillStyle = "#90a4ae";
+	ctx.beginPath();
+	ctx.roundRect(block_size * 4 + 16, 0, block_size * 4 + 12, titlebar_height, 10);
+	ctx.fill();
+	ctx.closePath();
+    ctx.font = "20pt Arial";
+    ctx.fillStyle = "#263238";
+    ctx.fillText(text, block_size * 4 + 16 + block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
 }
 
 function gridEventHandle(event) {
 	var grid = document.getElementById('grid');
 	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
 	var gridLeft = grid.offsetLeft + grid.clientLeft;
 	var gridTop = grid.offsetTop + grid.clientTop;
-	var i = Math.floor((event.pageY - gridTop) / (block_size + 4));
-	var j = Math.floor((event.pageX - gridLeft) / (block_size + 4));
+	var click_x = event.pageX - gridLeft;
+	var click_y = event.pageY - gridTop;
+	var i;
+	var j;
 	var color_mapping = [
 		'#eceff1', // cell_empty
 		'#1565c0', // cell_body
 		'#c2185b'  // cell_head
 	];
-	var color = color_mapping[board[i][j]];
+	var color;
 
-	if (finish) {
+	if (click_y <= (titlebar_height + 4)) {
+		if (click_x >= block_size * 8 + 32) {
+			startGame();
+			return;
+		}
+	}
+
+	if (remain == 0) {
 		startGame();
 		return;
 	}
 
+	i = Math.floor((click_y - titlebar_height + 4) / (block_size + 4));
+	j = Math.floor(click_x / (block_size + 4));
+	
+	color = color_mapping[board[i][j]]
 	if (visited[i][j]) {
 		return;
 	}
@@ -124,24 +177,53 @@ function gridEventHandle(event) {
 	showScore(score);
 
 	ctx.beginPath();
-	ctx.rect(j * (block_size + 4), i * (block_size + 4), block_size, block_size);
+	ctx.rect(j * (block_size + 4), i * (block_size + 4) + titlebar_height + 4, block_size, block_size);
 	ctx.fillStyle = color;
 	ctx.fill();
 
-	finish = (board[i][j] == cell_head);
+	if (board[i][j] == cell_head) {
+		remain -= 1;
+		showRemain(remain);
+	}
+}
+
+function initGrid(size) {
+	var grid = document.getElementById('grid');
+	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
+
+	ctx.canvas.width = size * (block_size + 4);
+	ctx.canvas.height = size * (block_size + 4);
+	ctx.canvas.height += titlebar_height + 4;
+}
+
+function drawReset() {
+	var grid = document.getElementById('grid');
+	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
+	var reset_text = "Reset";
+
+	ctx.fillStyle = "#90a4ae";
+	ctx.beginPath();
+	ctx.roundRect(block_size * 8 + 32, 0, block_size * 2 + 4, titlebar_height, 10);
+	ctx.fill();
+	ctx.closePath();
+
+    ctx.font = "20pt Arial";
+    ctx.fillStyle = "#263238";
+    ctx.fillText(reset_text, block_size * 8 + 32 + block_size + 2 - ctx.measureText(reset_text).width / 2, titlebar_height / 2 + 6);
 }
 
 function drawGrid(size) {
 	var grid = document.getElementById('grid');
 	var ctx = grid.getContext('2d');
+	var titlebar_height = block_size * 1.5;
 
-	ctx.canvas.width = size * (block_size + 4);
-	ctx.canvas.height = size * (block_size + 4);
 	ctx.fillStyle = "#546e7a";
 	ctx.beginPath();
 	for (var x = 0, i = 0; i < size; x += (block_size + 4), i++) {
 		for (var y = 0, j=0; j < size; y += (block_size + 4), j++) {
-			ctx.rect(x, y, block_size, block_size);
+			ctx.rect(x, y + titlebar_height + 4, block_size, block_size);
 		}
 	}
 	ctx.fill();
@@ -153,9 +235,13 @@ function drawGrid(size) {
 function startGame() {
 	finish = false;
 	score = 0;
-	showScore(score);
+	remain = 1;
 	calBlockSize(10, (window.innerWidth > 0) ? window.innerWidth : screen.width);
-	drawGrid(10);
 	initBoard(10);
 	createAircraft(10);
+	initGrid(10);	
+	drawReset();
+	drawGrid(10);
+	showScore(score);
+	showRemain(remain);
 }
