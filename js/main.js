@@ -99,7 +99,7 @@ function showScore(value) {
 function gridEventHandle(event) {
 	var grid = document.getElementById('grid');
 	var ctx = grid.getContext('2d');
-    var gridLeft = grid.offsetLeft + grid.clientLeft;
+	var gridLeft = grid.offsetLeft + grid.clientLeft;
 	var gridTop = grid.offsetTop + grid.clientTop;
 	var i = Math.floor((event.pageY - gridTop) / (block_size + 4));
 	var j = Math.floor((event.pageX - gridLeft) / (block_size + 4));
