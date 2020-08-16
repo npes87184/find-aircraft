@@ -34,7 +34,57 @@ function initBoard(size) {
 	}
 }
 
-function createAircraft(size, aircraft_size) {
+function checkAircraftValid(head_direction, i_center, j_center) {
+	if (head_direction == left) {
+		return board[i_center][j_center] == cell_empty &&
+				board[i_center][j_center - 1] == cell_empty &&
+				board[i_center - 1][j_center] == cell_empty &&
+				board[i_center - 2][j_center] == cell_empty &&
+				board[i_center + 1][j_center] == cell_empty &&
+				board[i_center + 2][j_center] == cell_empty &&
+				board[i_center][j_center + 1] == cell_empty &&
+				board[i_center][j_center + 2] == cell_empty &&
+				board[i_center - 1][j_center + 2] == cell_empty &&
+				board[i_center + 1][j_center + 2] == cell_empty;
+	} else if (head_direction == right) {
+		return board[i_center][j_center] == cell_empty &&
+				board[i_center][j_center + 1] == cell_empty &&
+				board[i_center - 1][j_center] == cell_empty &&
+				board[i_center - 2][j_center] == cell_empty &&
+				board[i_center + 1][j_center] == cell_empty &&
+				board[i_center + 2][j_center] == cell_empty &&
+				board[i_center][j_center - 1] == cell_empty &&
+				board[i_center][j_center - 2] == cell_empty &&
+				board[i_center - 1][j_center - 2] == cell_empty &&
+				board[i_center + 1][j_center - 2] == cell_empty;
+	} else if (head_direction == up) {
+		return board[i_center][j_center] == cell_empty &&
+				board[i_center - 1][j_center] == cell_empty &&
+				board[i_center][j_center - 1] == cell_empty &&
+				board[i_center][j_center - 2] == cell_empty &&
+				board[i_center][j_center + 1] == cell_empty &&
+				board[i_center][j_center + 2] == cell_empty &&
+				board[i_center + 1][j_center] == cell_empty &&
+				board[i_center + 2][j_center] == cell_empty &&
+				board[i_center + 2][j_center - 1] == cell_empty &&
+				board[i_center + 2][j_center + 1] == cell_empty;
+	} else if (head_direction == down) {
+		return board[i_center][j_center] == cell_empty &&
+				board[i_center + 1][j_center] == cell_empty &&
+				board[i_center][j_center - 1] == cell_empty &&
+				board[i_center][j_center - 2] == cell_empty &&
+				board[i_center][j_center + 1] == cell_empty &&
+				board[i_center][j_center + 2] == cell_empty &&
+				board[i_center - 1][j_center] == cell_empty &&
+				board[i_center - 2][j_center] == cell_empty &&
+				board[i_center - 2][j_center - 1] == cell_empty &&
+				board[i_center - 2][j_center + 1] == cell_empty;
+	}
+
+	return false;
+}
+
+function createAircraftImpl(size) {
 	var head_direction = Math.floor(Math.random() * 4);
 	var i_start = (head_direction == up) ? 1 : 2;
 	var i_end = (head_direction == down) ? (size - 2) : (size - 3);
@@ -42,6 +92,10 @@ function createAircraft(size, aircraft_size) {
 	var j_end = (head_direction == right) ? (size - 2) : (size - 3);
 	var i_center = Math.floor(Math.random() * (i_end - i_start)) + i_start;
 	var j_center = Math.floor(Math.random() * (j_end - j_start)) + j_start;
+
+	if (!checkAircraftValid(head_direction, i_center, j_center)) {
+		return false;
+	}
 
 	if (head_direction == left) {
 		board[i_center][j_center] = cell_body;
@@ -87,6 +141,17 @@ function createAircraft(size, aircraft_size) {
 		board[i_center - 2][j_center] = cell_body;
 		board[i_center - 2][j_center - 1] = cell_body;
 		board[i_center - 2][j_center + 1] = cell_body;
+	}
+
+	return true;
+}
+
+function createAircraft(size, number) {
+	while (number > 0) {
+		if (!createAircraftImpl(size)) {
+			continue;
+		}
+		number -= 1;
 	}
 }
 
@@ -235,10 +300,10 @@ function drawGrid(size) {
 function startGame() {
 	finish = false;
 	score = 0;
-	remain = 1;
+	remain = 2;
 	calBlockSize(10, (window.innerWidth > 0) ? window.innerWidth : screen.width);
 	initBoard(10);
-	createAircraft(10);
+	createAircraft(10, remain);
 	initGrid(10);	
 	drawReset();
 	drawGrid(10);
