@@ -37,48 +37,48 @@ function initBoard(size) {
 function checkAircraftValid(head_direction, i_center, j_center) {
 	if (head_direction == left) {
 		return board[i_center][j_center] == cell_empty &&
-				board[i_center][j_center - 1] == cell_empty &&
-				board[i_center - 1][j_center] == cell_empty &&
-				board[i_center - 2][j_center] == cell_empty &&
-				board[i_center + 1][j_center] == cell_empty &&
-				board[i_center + 2][j_center] == cell_empty &&
-				board[i_center][j_center + 1] == cell_empty &&
-				board[i_center][j_center + 2] == cell_empty &&
-				board[i_center - 1][j_center + 2] == cell_empty &&
-				board[i_center + 1][j_center + 2] == cell_empty;
+			board[i_center][j_center - 1] == cell_empty &&
+			board[i_center - 1][j_center] == cell_empty &&
+			board[i_center - 2][j_center] == cell_empty &&
+			board[i_center + 1][j_center] == cell_empty &&
+			board[i_center + 2][j_center] == cell_empty &&
+			board[i_center][j_center + 1] == cell_empty &&
+			board[i_center][j_center + 2] == cell_empty &&
+			board[i_center - 1][j_center + 2] == cell_empty &&
+			board[i_center + 1][j_center + 2] == cell_empty;
 	} else if (head_direction == right) {
 		return board[i_center][j_center] == cell_empty &&
-				board[i_center][j_center + 1] == cell_empty &&
-				board[i_center - 1][j_center] == cell_empty &&
-				board[i_center - 2][j_center] == cell_empty &&
-				board[i_center + 1][j_center] == cell_empty &&
-				board[i_center + 2][j_center] == cell_empty &&
-				board[i_center][j_center - 1] == cell_empty &&
-				board[i_center][j_center - 2] == cell_empty &&
-				board[i_center - 1][j_center - 2] == cell_empty &&
-				board[i_center + 1][j_center - 2] == cell_empty;
+			board[i_center][j_center + 1] == cell_empty &&
+			board[i_center - 1][j_center] == cell_empty &&
+			board[i_center - 2][j_center] == cell_empty &&
+			board[i_center + 1][j_center] == cell_empty &&
+			board[i_center + 2][j_center] == cell_empty &&
+			board[i_center][j_center - 1] == cell_empty &&
+			board[i_center][j_center - 2] == cell_empty &&
+			board[i_center - 1][j_center - 2] == cell_empty &&
+			board[i_center + 1][j_center - 2] == cell_empty;
 	} else if (head_direction == up) {
 		return board[i_center][j_center] == cell_empty &&
-				board[i_center - 1][j_center] == cell_empty &&
-				board[i_center][j_center - 1] == cell_empty &&
-				board[i_center][j_center - 2] == cell_empty &&
-				board[i_center][j_center + 1] == cell_empty &&
-				board[i_center][j_center + 2] == cell_empty &&
-				board[i_center + 1][j_center] == cell_empty &&
-				board[i_center + 2][j_center] == cell_empty &&
-				board[i_center + 2][j_center - 1] == cell_empty &&
-				board[i_center + 2][j_center + 1] == cell_empty;
+			board[i_center - 1][j_center] == cell_empty &&
+			board[i_center][j_center - 1] == cell_empty &&
+			board[i_center][j_center - 2] == cell_empty &&
+			board[i_center][j_center + 1] == cell_empty &&
+			board[i_center][j_center + 2] == cell_empty &&
+			board[i_center + 1][j_center] == cell_empty &&
+			board[i_center + 2][j_center] == cell_empty &&
+			board[i_center + 2][j_center - 1] == cell_empty &&
+			board[i_center + 2][j_center + 1] == cell_empty;
 	} else if (head_direction == down) {
 		return board[i_center][j_center] == cell_empty &&
-				board[i_center + 1][j_center] == cell_empty &&
-				board[i_center][j_center - 1] == cell_empty &&
-				board[i_center][j_center - 2] == cell_empty &&
-				board[i_center][j_center + 1] == cell_empty &&
-				board[i_center][j_center + 2] == cell_empty &&
-				board[i_center - 1][j_center] == cell_empty &&
-				board[i_center - 2][j_center] == cell_empty &&
-				board[i_center - 2][j_center - 1] == cell_empty &&
-				board[i_center - 2][j_center + 1] == cell_empty;
+			board[i_center + 1][j_center] == cell_empty &&
+			board[i_center][j_center - 1] == cell_empty &&
+			board[i_center][j_center - 2] == cell_empty &&
+			board[i_center][j_center + 1] == cell_empty &&
+			board[i_center][j_center + 2] == cell_empty &&
+			board[i_center - 1][j_center] == cell_empty &&
+			board[i_center - 2][j_center] == cell_empty &&
+			board[i_center - 2][j_center - 1] == cell_empty &&
+			board[i_center - 2][j_center + 1] == cell_empty;
 	}
 
 	return false;
@@ -158,11 +158,11 @@ function createAircraft(size, number) {
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 	if (w < 2 * r) r = w / 2;
 	if (h < 2 * r) r = h / 2;
-	this.moveTo(x+r, y);
-	this.arcTo(x+w, y,   x+w, y+h, r);
-	this.arcTo(x+w, y+h, x,   y+h, r);
-	this.arcTo(x,   y+h, x,   y,   r);
-	this.arcTo(x,   y,   x+w, y,   r);
+	this.moveTo(x + r, y);
+	this.arcTo(x + w, y, x + w, y + h, r);
+	this.arcTo(x + w, y + h, x, y + h, r);
+	this.arcTo(x, y + h, x, y, r);
+	this.arcTo(x, y, x + w, y, r);
 	return this;
 }
 
@@ -178,9 +178,9 @@ function showScore(value) {
 	ctx.roundRect(0, 0, block_size * 4 + 12, titlebar_height, 10);
 	ctx.fill();
 	ctx.closePath();
-    ctx.font = "20pt Arial";
-    ctx.fillStyle = "#263238";
-    ctx.fillText(text, block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
+	ctx.font = "20pt Arial";
+	ctx.fillStyle = "#263238";
+	ctx.fillText(text, block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
 }
 
 function showRemain(value) {
@@ -195,9 +195,9 @@ function showRemain(value) {
 	ctx.roundRect(block_size * 4 + 16, 0, block_size * 4 + 12, titlebar_height, 10);
 	ctx.fill();
 	ctx.closePath();
-    ctx.font = "20pt Arial";
-    ctx.fillStyle = "#263238";
-    ctx.fillText(text, block_size * 4 + 16 + block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
+	ctx.font = "20pt Arial";
+	ctx.fillStyle = "#263238";
+	ctx.fillText(text, block_size * 4 + 16 + block_size * 2 + 6 - ctx.measureText(text).width / 2, titlebar_height / 2 + 6);
 }
 
 function gridEventHandle(event) {
@@ -231,7 +231,7 @@ function gridEventHandle(event) {
 
 	i = Math.floor((click_y - titlebar_height + 4) / (block_size + 4));
 	j = Math.floor(click_x / (block_size + 4));
-	
+
 	color = color_mapping[board[i][j]]
 	if (visited[i][j]) {
 		return;
@@ -274,9 +274,9 @@ function drawReset() {
 	ctx.fill();
 	ctx.closePath();
 
-    ctx.font = "20pt Arial";
-    ctx.fillStyle = "#263238";
-    ctx.fillText(reset_text, block_size * 8 + 32 + block_size + 2 - ctx.measureText(reset_text).width / 2, titlebar_height / 2 + 6);
+	ctx.font = "20pt Arial";
+	ctx.fillStyle = "#263238";
+	ctx.fillText(reset_text, block_size * 8 + 32 + block_size + 2 - ctx.measureText(reset_text).width / 2, titlebar_height / 2 + 6);
 }
 
 function drawGrid(size) {
@@ -287,7 +287,7 @@ function drawGrid(size) {
 	ctx.fillStyle = "#546e7a";
 	ctx.beginPath();
 	for (var x = 0, i = 0; i < size; x += (block_size + 4), i++) {
-		for (var y = 0, j=0; j < size; y += (block_size + 4), j++) {
+		for (var y = 0, j = 0; j < size; y += (block_size + 4), j++) {
 			ctx.rect(x, y + titlebar_height + 4, block_size, block_size);
 		}
 	}
@@ -304,7 +304,7 @@ function startGame() {
 	calBlockSize(10, (window.innerWidth > 0) ? window.innerWidth : screen.width);
 	initBoard(10);
 	createAircraft(10, remain);
-	initGrid(10);	
+	initGrid(10);
 	drawReset();
 	drawGrid(10);
 	showScore(score);
